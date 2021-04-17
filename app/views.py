@@ -3,7 +3,7 @@ from flask_admin.contrib.sqla import ModelView
 import sqlite3 as lite
 from sqlite3 import Error
 from app import app, db, admin, models
-from .models import Customer, Purchase
+from .models import Customer, Purchase, Posts
 from datetime import timedelta
 from datetime import datetime
 from .forms import createCustomerform, login
@@ -15,6 +15,7 @@ import hashlib
 #adding the models to flask admin
 admin.add_view(ModelView(Customer, db.session))
 admin.add_view(ModelView(Purchase, db.session))
+admin.add_view(ModelView(Posts, db.session))
 
 
 # landing page
