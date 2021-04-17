@@ -1,0 +1,125 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        max-width: 300px;
+        margin: auto;
+        text-align: center;
+        font-family: arial;
+        float: right;
+        position: fixed;
+    }
+
+    .title {
+        color: grey;
+        font-size: 18px;
+    }
+
+    button {
+        border: none;
+        outline: 0;
+        display: inline-block;
+        padding: 8px;
+        color: white;
+        background-color: #000;
+        text-align: center;
+        cursor: pointer;
+        width: 100%;
+        font-size: 18px;
+    }
+
+
+
+        button:hover, a:hover {
+            opacity: 0.7;
+        }
+
+    .container-fluid {
+    }
+</style>
+
+<div class="card">
+
+    {% for t in user %}
+
+    <h1><span class="text-muted">{{ t["name"] }} </h1>
+    <img src="{{ url_for('static', filename = 'images/'+t["imageCode"]) }}">
+    <h4><span class="text-muted">Age: {{ t["age"] }} </h4>
+
+    {% endfor %}
+
+
+    <p>Filtering options</p>
+    <form class="row g-3">
+        <div class="col-12">
+            <select class="form-select" aria-label="Default select example" id="ScreeningSelect" onchange="GetSelectedTextValue(this)">
+                <option selected">Filter by tag</option>
+                {% for p in tags %}
+                <option value="{{ p }}" id="{{ p }}">{{ p }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Filter your searches</button>
+        </div>
+
+    </form>
+    <script>
+        $(document).ready(function () {
+            $(document).on("click", "button", function () {
+                var clicked_obj = $(this);
+                //var screening = $(this).attr('id');
+
+                var ScreeningSelectObj = document.getElementById('ScreeningSelect');
+                var screening = ScreeningSelectObj.options[ScreeningSelectObj.selectedIndex].value;
+
+                $.ajax({
+                    url: '/SelectScreeningTime',
+                    type: 'POST',
+                    data: JSON.stringify({ screening: screening }),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        window.location.replace('/Feed');
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+
+            });
+        });
+    </script>
+</div>
+
+
+    <div class="container-fluid" id="postBtnContainer">
+        <div class="row" style="margin-left:20%;">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+
+                {% for post in posts %}
+                <div class="col-9">
+                    <h4 class="featurette-heading">{{ post["description"] }}</h4>
+
+
+                    <hr class="featurette-divider">
+                    <div class="row featurette" style="padding-top: 20px; padding-bottom: 20px;">
+                        <div class="col">
+                            <img class="featurette-image rounded" src="{{ url_for('static', filename = 'images/'+post["path"]) }}" style="width:100%">
+                        </div>
+
+                    </div>
+                    <p>Likes: {{ post["likes"] }}</p>
+                    <p>Tags: {{ post["tags"] }}</p>
+                </div>
+
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+    {% endblock %}
