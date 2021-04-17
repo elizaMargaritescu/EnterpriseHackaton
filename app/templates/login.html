@@ -1,0 +1,28 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<title>User Login</title>
+<main>
+    <br>
+    <br>
+    <br>
+
+    <h2 style="padding-left: 100px;padding-right: 100px;">Login</h2>
+
+    <form action="/Login" style="padding-left: 100px;padding-right: 100px;" method="post" name="Login">
+        <div class="form-group">
+            <input type="text" autofocus class="form-control" placeholder="email" name="email" value="{{ request.form.email}}">
+            <br>
+        </div>
+        <div class="form-group">
+            <input type="password" autofocus class="form-control" placeholder="password" name="password" value="{{ request.form.password}}">
+            <br>
+        </div>
+        <p><input class="btn btn-secondary" type="submit" value="Enter"></p>
+
+    </form>
+    {%if error%}
+    <p class="error" style="text-align: center;"><strong> MESSAGE: </strong> {{error}}</p>
+    {%endif%}
+</main>
+{% endblock %}
