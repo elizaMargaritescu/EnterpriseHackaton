@@ -13,6 +13,52 @@
         .main-body {
             padding-top: 56px;
         }
+
+      
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+        @media screen and (max-width: 600px) {
+            .column {
+                -ms-flex: 100%;
+                flex: 100%;
+                max-width: 100%;
+            }
+        }
+        .fa {
+            padding: 5px;
+            font-size: 20px;
+            width: 40px;
+            text-align: center;
+            text-decoration: none;
+            margin: 5px 2px;
+            border-radius: 50%;
+        }
+
+            .fa:hover {
+                opacity: 0.7;
+            }
+
+        .fa-facebook {
+            background: #3B5998;
+            color: white;
+
+        }
+
+
+        .fa-linkedin {
+            background: #007bb5;
+            color: white;
+        }
+
+
+        .fa-instagram {
+            background: #125688;
+            color: white;
+        }
+    
     </style>
 </head>
 
@@ -23,23 +69,35 @@
             <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark">
 
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="/" style="font-family: 'Brush Script MT', cursive; font-size:2rem;">Éstiméé</a>
+                    <a class="navbar-brand" href="/" style="font-family: 'Brush Script MT', cursive; font-size:2rem;">Éstime</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <ul class="navbar-nav me-auto mb-2 mb-md-0">
                             <li class="nav-item">
-                                <a class="nav-link" href="/">What's On</a>
+                                <a class="nav-link" href="/Calendar">WHAT'S ON</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/CreateAccount">Register</a>
+                                <a class="nav-link" href="/CreateAccount">REGISTER</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/Login">Login</a>
+                                <a class="nav-link" href="/Login">LOGIN</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/Homepage">My feed</a>
+                                <a class="nav-link" href="/Homepage">MY FEED</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/AboutUs">OUR MISSION</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="fa fa-facebook"></a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="fa fa-linkedin"></a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="fa fa-instagram"></a>
                             </li>
 
                         </ul>

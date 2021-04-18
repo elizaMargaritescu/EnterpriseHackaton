@@ -1,0 +1,147 @@
+﻿<!--
+
+SVG code from https://speckyboy.com/css-javascript-text-animation-snippets/
+
+-->
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+    @media screen and (max-width: 600px) {
+        .column {
+            -ms-flex: 100%;
+            flex: 100%;
+            max-width: 100%;
+        }
+    }
+
+    body {
+        padding: 0;
+        margin: 0;
+        background: #4a2667;
+        background-image: linear-gradient(#4B0082, #ffe033);
+    }
+
+    svg.intro {
+        background: linear-gradient(135deg, #aa3bb1, #582a7e);
+        max-width: 800px;
+        position: absolute;
+        top: 50%;
+        left: 30%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 30px 50px -20px #2e0642;
+    }
+
+        svg.intro .text {
+            display: none;
+        }
+
+        svg.intro.go .text {
+            font-family: Arial, sans-serif;
+            font-size: 20px;
+            text-transform: uppercase;
+            display: block;
+        }
+
+        svg.intro.go .text-stroke {
+            fill: none;
+            stroke: #51256f;
+            stroke-width: 2.8px;
+            stroke-dashoffset: -900;
+            stroke-dasharray: 900;
+            stroke-linecap: butt;
+            stroke-linejoin: round;
+            -webkit-animation: dash 2.5s ease-in-out forwards;
+            animation: dash 2.5s ease-in-out forwards;
+        }
+
+            svg.intro.go .text-stroke:nth-child(2) {
+                -webkit-animation-delay: 0.3s;
+                animation-delay: 0.3s;
+            }
+
+            svg.intro.go .text-stroke:nth-child(3) {
+                -webkit-animation-delay: 0.9s;
+                animation-delay: 0.9s;
+            }
+
+        svg.intro.go .text-stroke-2 {
+            stroke: #f6bdfa;
+            -webkit-animation-delay: 1.2s;
+            animation-delay: 1.2s;
+        }
+
+        svg.intro.go .text-stroke:nth-child(5) {
+            -webkit-animation-delay: 1.5s;
+            animation-delay: 1.5s;
+        }
+
+        svg.intro.go .text-stroke:nth-child(6) {
+            -webkit-animation-delay: 1.8s;
+            animation-delay: 1.8s;
+        }
+
+    @-webkit-keyframes dash {
+        100% {
+            stroke-dashoffset: 0;
+        }
+    }
+
+    @keyframes dash {
+        100% {
+            stroke-dashoffset: 0;
+        }
+    }
+
+    img {
+        position: absolute;
+        right: 3%;
+    }
+</style>
+<title>our mission</title>
+<svg class="intro" viewbox="0 0 165 85">
+    <text text-anchor="start" x="10" y="30" class="text text-stroke" clip-path="url(#text1)">Where</text>
+    <text text-anchor="start" x="10" y="50" class="text text-stroke" clip-path="url(#text2)">Ideas</text>
+    <text text-anchor="start" x="10" y="70" class="text text-stroke" clip-path="url(#text3)">Begin.</text>
+    <text text-anchor="start" x="10" y="30" class="text text-stroke text-stroke-2" clip-path="url(#text1)">All</text>
+    <text text-anchor="start" x="10" y="50" class="text text-stroke text-stroke-2" clip-path="url(#text2)">For</text>
+    <text text-anchor="start" x="10" y="70" class="text text-stroke text-stroke-2" clip-path="url(#text3)">One.</text>
+    <defs>
+        <clipPath id="text1">
+            <text text-anchor="start" x="10" y="30" class="text">All</text>
+        </clipPath>
+        <clipPath id="text2">
+            <text text-anchor="start" x="10" y="50" class="text">For</text>
+        </clipPath>
+        <clipPath id="text3">
+            <text text-anchor="start" x="10" y="70" class="text">One.</text>
+        </clipPath>
+    </defs>
+</svg>
+<script>
+    $(function () {
+        $('.intro').addClass('go');
+
+        $('.reload').click(function () {
+            $('.intro').removeClass('go').delay(200).queue(function (next) {
+                $('.intro').addClass('go');
+                next();
+            });
+
+        });
+    })
+</script>
+
+<img src="{{url_for('static', filename='images/work.png')}}" style="width:65%">
+
+<p style="margin-left:3%;margin-top: 45%; font-size:2rem; padding-left:1%; width: 30%; background-color:#4a2667; border-radius:25px; opacity:80%; color: white;">"Our mission is to bring together people affected by body-image conditions and business which have a solution for them."</p>
+<p style="margin-left:35%; font-size:2rem; padding-left:1%; width: 30%; background-color:#4a2667; border-radius:25px; opacity:80%; color: white;">Provide support, solutions and a boost of confidence while learning new facts about your condition.</p>
+<p style="margin-left:67%; font-size:2rem; padding-left:1%; width: 30%; background-color:#4a2667; border-radius:25px; opacity:80%; color: white;">If you wish to help us develop a better solution, don't hesitate to contact us on our social media accounts!</p>
+
+
+    {% endblock %}

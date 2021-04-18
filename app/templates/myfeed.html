@@ -46,15 +46,13 @@
 
     <h1><span class="text-muted">{{ t["name"] }} </h1>
     <img src="{{ url_for('static', filename = 'images/'+t["imageCode"]) }}">
-    <h4><span class="text-muted">Age: {{ t["age"] }} </h4>
+
 
     {% endfor %}
 
-
-    <p>Filtering options</p>
     <form class="row g-3">
         <div class="col-12">
-            <select class="form-select" aria-label="Default select example" id="ScreeningSelect" onchange="GetSelectedTextValue(this)">
+            <select class="form-select" aria-label="Default select example" id="TagSelect" onchange="GetSelectedTextValue(this)">
                 <option selected">Filter by tag</option>
                 {% for p in tags %}
                 <option value="{{ p }}" id="{{ p }}">{{ p }}</option>
@@ -71,15 +69,14 @@
         $(document).ready(function () {
             $(document).on("click", "button", function () {
                 var clicked_obj = $(this);
-                //var screening = $(this).attr('id');
 
-                var ScreeningSelectObj = document.getElementById('ScreeningSelect');
-                var screening = ScreeningSelectObj.options[ScreeningSelectObj.selectedIndex].value;
+                var TaggSelectObj = document.getElementById('TagSelect');
+                var tag = TagSelectObj.options[TagSelectObj.selectedIndex].value;
 
                 $.ajax({
-                    url: '/SelectScreeningTime',
+                    url: '/SelectTag',
                     type: 'POST',
-                    data: JSON.stringify({ screening: screening }),
+                    data: JSON.stringify({ tag: tag }),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (response) {

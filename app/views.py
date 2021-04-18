@@ -24,6 +24,10 @@ admin.add_view(ModelView(Posts, db.session))
 def homepage():
         return render_template('index.html', title='Simple template example')
 
+# LIST OF VALID LOG INS:
+# Customer1 customer1@gmail.com customer1 
+# Customer2 customer2@gmail.com customer2
+
 # log in page
 @app.route('/Login', methods=['GET', 'POST'])
 def userLogin():
@@ -34,6 +38,7 @@ def userLogin():
                 else:
                         p = request.form.get('email')
                         con = lite.connect('app.db')
+                        #decode the hashed password for comparison against the one entered by the user
                         compare = hashlib.sha1(request.form['password'].encode()).hexdigest()
                         with con:
                                 data = con.cursor()
@@ -58,10 +63,8 @@ def createCustomer():
         if request.method == "POST":
                 # Checks all values are here and correct
                 con = lite.connect('app.db')
-                if not request.form.get("name"):
-                    error = 'You must enter a name!'
-                
-                elif not request.form.get("password"):
+
+                if not request.form.get("password"):
                     error = 'You must enter a password!'
 
                 elif not request.form.get("email"):
@@ -70,11 +73,7 @@ def createCustomer():
                 elif not request.form.get("age"):
                     error = 'You must enter an age!'
 
-                elif not request.form.get("age"):
-                    error = 'You must enter a phone number!'
-                   
                 else:
-                        # Assigns all values
                         # name is optional, users can chose to remain anonymous
                         if request.form.get("name"):
                                 name = request.form.get("name")
@@ -82,7 +81,6 @@ def createCustomer():
                                 name = "Anonym"
                         password = request.form.get("password")
                         email = request.form.get("email")
-                        phone = request.form.get("phone")
                         age = request.form.get("age")
                         #encrypting passwords for security
                         password = hashlib.sha1(password.encode()).hexdigest()
@@ -94,8 +92,8 @@ def createCustomer():
                                 if (len(user) > 0):
                                         error = 'EMAIL ALREADY EXISTS WITH AN ACCOUNT.'
                                 else:
-                                        data.execute("INSERT INTO Customer (name, email, password, phone, age) VALUES ('{}', '{}', '{}', '{}', '{}');"
-                                                        .format(name, email, password, phone, age))
+                                        data.execute("INSERT INTO Customer (name, email, password, age) VALUES ('{}', '{}', '{}', '{}');"
+                                                        .format(name, email, password, age))
                                         return redirect('/Login')
 
     
@@ -107,16 +105,12 @@ def landingpage():
     parsedInfoPosts = []
     
     if 'variable' in session:
-                
-                
-                
+     
                 session_id = session['variable']
                 curUser = models.Customer.query.filter_by(id=session_id).first()
                 posts = Posts.query.all()
                 
                 path = str(curUser.id) + ".png"
-                
-               
                 
 
                 parsedInfo.append({
@@ -158,16 +152,15 @@ def landingpage():
                 #removing duplicates from the list
                 joinedList = list(dict.fromkeys(joinedList))
                 print(joinedList)
-
-
-
-                return render_template("homepage.html", user=parsedInfo, posts=parsedInfoPosts, tags = joinedList)
+    else:
+                return 'Login to view purchased tickets'
+    return render_template("homepage.html", user=parsedInfo, posts=parsedInfoPosts, tags = joinedList)
   
   
-@app.route('/SelectScreeningTime', methods=['POST'])
-def getSelectedScreeningTime():
+@app.route('/SelectTag', methods=['POST'])
+def getSelectedTag():
         data = json.loads(request.data)
-        session["selectedScreeningTime"] = str(data.get('screening'))
+        session["selectedTag"] = str(data.get('tag'))
         return json.dumps({'status': 'OK'})
 
 @app.route('/Feed', methods=['GET', 'POST'])
@@ -177,15 +170,13 @@ def myfeed():
     if request.method == 'GET':
         if 'variable' in session:
                 
-                screeningTime = session['selectedScreeningTime']
+                tag = session['selectedTag']
                 
                 session_id = session['variable']
                 curUser = models.Customer.query.filter_by(id=session_id).first()
                 posts = Posts.query.all()
                 
                 path = str(curUser.id) + ".png"
-                
-
 
                 parsedInfo.append({
                                 "user_id" : curUser.id,
@@ -200,7 +191,7 @@ def myfeed():
                         print(((i.tags).split())[1])
                         for m in range(len((i.tags).split())):
 
-                            if(((i.tags).split())[m-1] == screeningTime):
+                            if(((i.tags).split())[m-1] == tag):
                                 
                                 path2 = "post" + str(i.postId) + ".jpg"
                                 parsedInfoPosts.append({
@@ -230,4 +221,13 @@ def myfeed():
                 joinedList = list(dict.fromkeys(joinedList))
                 print(joinedList)
                 return render_template("myfeed.html", posts=parsedInfoPosts, user=parsedInfo, tags = joinedList)
+        else:
+                return 'log in first'
 
+@app.route('/Calendar', methods=['GET', 'POST'])
+def whatsOn():
+    return render_template('calendar.html', title='what is on page')
+
+@app.route('/AboutUs', methods=['GET', 'POST'])
+def aboutUs():
+    return render_template('about.html', title='mission')
