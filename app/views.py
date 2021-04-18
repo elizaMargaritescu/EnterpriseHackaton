@@ -15,6 +15,8 @@ import numpy as np
 
 #adding the models to flask admin
 admin.add_view(ModelView(Customer, db.session))
+#the purchase table has been added, because one of the features I wanted to implement was booking tickets for online events,
+#in order to be able to create graphs for our company to see with what content the users are engaging the most
 admin.add_view(ModelView(Purchase, db.session))
 admin.add_view(ModelView(Posts, db.session))
 
